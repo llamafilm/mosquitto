@@ -85,3 +85,8 @@ test/unit/out/
 
 www/cache/
 __pycache__
+
+**/CMakeFiles/*
+CMakeCache.txt
+*.dylib
+*.cmake

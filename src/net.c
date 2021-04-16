@@ -338,11 +338,24 @@ int net__tls_server_ctx(struct mosquitto__listener *listener)
 		SSL_CTX_set_options(listener->ssl_ctx, SSL_OP_NO_SSLv3 | SSL_OP_NO_TLSv1 | SSL_OP_NO_TLSv1_1);
 	}else if(!strcmp(listener->tls_version, "tlsv1.1")){
 		SSL_CTX_set_options(listener->ssl_ctx, SSL_OP_NO_SSLv3 | SSL_OP_NO_TLSv1);
+	}else if(!strcmp(listener->tls_version, "forcetlsv1.0")){
+		SSL_CTX_set_min_proto_version(listener->ssl_ctx, TLS1_VERSION);
+		SSL_CTX_set_max_proto_version(listener->ssl_ctx, TLS1_VERSION);
+	}else if(!strcmp(listener->tls_version, "forcetlsv1.1")){
+		SSL_CTX_set_min_proto_version(listener->ssl_ctx, TLS1_1_VERSION);
+		SSL_CTX_set_max_proto_version(listener->ssl_ctx, TLS1_1_VERSION);
+
 #else
 	}else if(!strcmp(listener->tls_version, "tlsv1.2")){
 		SSL_CTX_set_options(listener->ssl_ctx, SSL_OP_NO_SSLv3 | SSL_OP_NO_TLSv1 | SSL_OP_NO_TLSv1_1);
 	}else if(!strcmp(listener->tls_version, "tlsv1.1")){
 		SSL_CTX_set_options(listener->ssl_ctx, SSL_OP_NO_SSLv3 | SSL_OP_NO_TLSv1);
+	}else if(!strcmp(listener->tls_version, "forcetlsv1.0")){
+		SSL_CTX_set_min_proto_version(listener->ssl_ctx, TLS1_VERSION);
+		SSL_CTX_set_max_proto_version(listener->ssl_ctx, TLS1_VERSION);
+	}else if(!strcmp(listener->tls_version, "forcetlsv1.1")){
+		SSL_CTX_set_min_proto_version(listener->ssl_ctx, TLS1_1_VERSION);
+		SSL_CTX_set_max_proto_version(listener->ssl_ctx, TLS1_1_VERSION);
 #endif
 	}else{
 		log__printf(NULL, MOSQ_LOG_ERR, "Error: Unsupported tls_version \"%s\".", listener->tls_version);

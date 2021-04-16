@@ -707,6 +707,12 @@ static int net__init_ssl_ctx(struct mosquitto *mosq)
 			SSL_CTX_set_options(mosq->ssl_ctx, SSL_OP_NO_SSLv3 | SSL_OP_NO_TLSv1 | SSL_OP_NO_TLSv1_1);
 		}else if(!strcmp(mosq->tls_version, "tlsv1.1")){
 			SSL_CTX_set_options(mosq->ssl_ctx, SSL_OP_NO_SSLv3 | SSL_OP_NO_TLSv1);
+		}else if(!strcmp(mosq->tls_version, "forcetlsv1.0")){
+			SSL_CTX_set_min_proto_version(mosq->ssl_ctx, TLS1_VERSION);
+			SSL_CTX_set_max_proto_version(mosq->ssl_ctx, TLS1_VERSION);
+		}else if(!strcmp(mosq->tls_version, "forcetlsv1.1")){
+			SSL_CTX_set_min_proto_version(mosq->ssl_ctx, TLS1_1_VERSION);
+			SSL_CTX_set_max_proto_version(mosq->ssl_ctx, TLS1_1_VERSION);
 		}else{
 			log__printf(mosq, MOSQ_LOG_ERR, "Error: Protocol %s not supported.", mosq->tls_version);
 			return MOSQ_ERR_INVAL;
