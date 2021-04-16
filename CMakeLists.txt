@@ -12,6 +12,15 @@ set (VERSION 2.0.8)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 
+#MACOSX specific
+if (APPLE)
+include_directories(/usr/local/Cellar/openssl@1.1/1.1.1k/include/)
+set(OPENSSL_ROOT_DIR "/usr/local/Cellar/openssl@1.1/1.1.1k/")
+set(OPENSSL_LIBRARIES "/usr/local/Cellar/openssl@1.1/1.1.1k/lib/")
+set(OPENSSL_CRYPTO_LIBRARY "/usr/local/Cellar/openssl@1.1/1.1.1k/lib/libcrypto.dylib")
+set(OPENSSL_SSL_LIBRARY "/usr/local/Cellar/openssl@1.1/1.1.1k/lib/libssl.dylib")
+endif (APPLE)
+
 add_definitions (-DCMAKE -DVERSION=\"${VERSION}\")
 
 if (WIN32)
@@ -118,7 +127,7 @@ option(WITH_CLIENTS "Build clients?" ON)
 option(WITH_BROKER "Build broker?" ON)
 option(WITH_APPS "Build apps?" ON)
 option(WITH_PLUGINS "Build plugins?" ON)
-option(DOCUMENTATION "Build documentation?" ON)
+option(DOCUMENTATION "Build documentation?" OFF)
 
 add_subdirectory(lib)
 if (WITH_CLIENTS)
